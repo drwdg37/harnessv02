@@ -250,6 +250,18 @@
       }
     }
 
+    /* iOS specific touch optimizations */
+    @supports (-webkit-touch-callout: none) {
+      .tile {
+        -webkit-tap-highlight-color: rgba(0,0,0,0.1);
+        touch-action: manipulation;
+      }
+      .tile.reason {
+        min-height: 60px;
+        padding: 18px 20px;
+      }
+    }
+
     /* Tiles */
     .tile {
       pointer-events: auto !important;
@@ -265,6 +277,12 @@
       min-height: 60px;
       min-width: 60px;
       -webkit-tap-highlight-color: transparent;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      -khtml-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
     }
     .tile:hover {
       transform: translateY(-2px);
@@ -283,6 +301,8 @@
       min-height: 52px; 
       font-weight: 700; 
       font-size: 14px;
+      touch-action: manipulation;
+      -webkit-touch-callout: none;
     }
     .tile.reason.active { 
       border-color: var(--chip-reason-border); 
@@ -677,10 +697,18 @@
           e.preventDefault();
           selectSelection(btn, e);
         });
+        btn.addEventListener('touchend', (e) => {
+          e.preventDefault();
+          selectSelection(btn, e);
+        });
       });
       
       $$('.tile.reason').forEach(btn => {
         btn.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          toggleReason(btn, e);
+        });
+        btn.addEventListener('touchend', (e) => {
           e.preventDefault();
           toggleReason(btn, e);
         });
